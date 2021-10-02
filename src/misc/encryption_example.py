@@ -14,7 +14,7 @@ def main():
 	"""
 
 	# To b64 encrypt a token
-	print("Enter your Slack API token (typically starts with \"xoxb\"): ")
+	print("\n\nEnter your Slack API token (typically starts with \"xoxb\"): ")
 	token = input()
 	token_to_bytes = token.encode("ascii") #we have an encoded string
 	token_bytes_to_base64= base64.b64encode(token_to_bytes)#encoding bytes to base64
@@ -28,7 +28,7 @@ def main():
 	print("\nDecrypted Slack API Token: " + str(token_base64_decrypted_output))
 
 
-	print("Enter your Slack APP token (typically starts with \"xapp\"): ")
+	print("\n\nEnter your Slack APP token (typically starts with \"xapp\"): ")
 	token = input()
 	token_to_bytes = token.encode("ascii") #we have an encoded string
 	token_bytes_to_base64= base64.b64encode(token_to_bytes)#encoding bytes to base64
