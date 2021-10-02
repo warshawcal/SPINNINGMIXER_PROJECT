@@ -59,10 +59,11 @@ class WebSocketHandler:
         """
         Prints any errors related to the websocket connection
         """
-        print("\nJARVIS-ERROR:")
-        print(error)
-        print("\n")
-
+        if len(str(error)) > 0:
+            print("\nJARVIS-ERROR:")
+            print(error)
+            print("\n")
+            
     def on_close(self):
         """
         Handles the closing of the websocket connection
