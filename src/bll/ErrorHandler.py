@@ -48,7 +48,7 @@ class ErrorHandlerContext:
 			punchline = None
 
 		if self.debug_mode:
-			print("\n\n ERROR DETECTED: " + \
+			print("\n\n JARVIS ERROR DETECTED: " + \
 				" \n\nFUNCTION: "  + "\n"  + str(self.function_name)+ \
 				" \n\nEXC TYPE: "  + "\n"  + str(exc_type) 			+ \
 				" \n\nEXC VALUE: " + "\n"  + str(exc_value) 		+ \
