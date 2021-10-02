@@ -1,5 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__pycache__/*
+*.pyc
 *.py[cod]
 *$py.class
 
@@ -128,5 +130,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# OTHER
+#EXTRA
 .DS_Store
