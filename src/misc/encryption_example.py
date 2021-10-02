@@ -5,7 +5,7 @@ Example base64 encrypted string
 
 def main():
 	"""
-	1.)Copy API_TOKEN from OAuth & Permissions > Bot User OAuth Token (typically, the string
+	1.) Copy API_TOKEN from OAuth & Permissions > Bot User OAuth Token (typically, the string
 	begins with ‘xoxb-’).
 
 	2.) Generate APP_TOKEN: Basic Information> App-Level Tokens> Generate Token and Scopes

@@ -3,6 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from bll.web_socket_handler import WebSocketHandler
 
+
 class Jarvis:
     """
     Run file to start the Jarvis Bot
