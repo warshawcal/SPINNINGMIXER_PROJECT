@@ -19,13 +19,13 @@ def main():
 	token_to_bytes = token.encode("ascii") #we have an encoded string
 	token_bytes_to_base64= base64.b64encode(token_to_bytes)#encoding bytes to base64
 	token_base64_encrypted_output = token_bytes_to_base64.decode('ascii')
-	print("\nEncrypted Slack API Token: " + str(token_base64_encrypted_output))
+	print("\n\tEncrypted Slack API Token: " + str(token_base64_encrypted_output))
 
 	# To b64 decrypt a token
 	token_base64_encrypted_output = token_base64_encrypted_output.encode('ascii')
 	token_b64_output_bytes = base64.b64decode(token_base64_encrypted_output)
 	token_base64_decrypted_output = token_b64_output_bytes.decode('ascii')
-	print("\nDecrypted Slack API Token: " + str(token_base64_decrypted_output))
+	print("\n\tDecrypted Slack API Token: " + str(token_base64_decrypted_output))
 
 
 	print("\n\nEnter your Slack APP token (typically starts with \"xapp\"): ")
@@ -33,13 +33,13 @@ def main():
 	token_to_bytes = token.encode("ascii") #we have an encoded string
 	token_bytes_to_base64= base64.b64encode(token_to_bytes)#encoding bytes to base64
 	token_base64_encrypted_output = token_bytes_to_base64.decode('ascii')
-	print("\nEncrypted Slack APP Token: " + str(token_base64_encrypted_output))
+	print("\n\tEncrypted Slack APP Token: " + str(token_base64_encrypted_output))
 
 	# To b64 decrypt a token
 	token_base64_encrypted_output = token_base64_encrypted_output.encode('ascii')
 	token_b64_output_bytes = base64.b64decode(token_base64_encrypted_output)
 	token_base64_decrypted_output = token_b64_output_bytes.decode('ascii')
-	print("\nDecrypted Slack APP Token: " + str(token_base64_decrypted_output))
+	print("\n\tDecrypted Slack APP Token: " + str(token_base64_decrypted_output))
 
 main()
 
