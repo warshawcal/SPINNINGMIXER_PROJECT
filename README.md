@@ -7,8 +7,7 @@ Repo for Data Science I project.
  - [✓] Create a Python script to power Jarvis that can receive messages from Slack, react to messages based on their contents, and send messages of its own back to Slack (DONE)
  - [ ] Instantiate the necessary behavior of Jarvis in your Python code. In particular, Jarvis must remember its current state (where it is in a conversation) when new messages are received and respond to messages with particular contents (IN PROGRESS)
  - [ ] Devise a small database that Jarvis can store some of the data it receives during certain conversations. (IN PROGRESS)
- - [ ] Use the completed Jarvis to generate natural language (text) data and save this text to the
-database.
+ - [ ] Use the completed Jarvis to generate natural language (text) data and save this text to the database. (NOT STARTED)
 
 
 DEVELOPER DOCUMENTATION:
