@@ -126,7 +126,19 @@ class SlackAPIHandler:
         url = "https://slack.com/api/apps.connections.open"
         response = requests.post(url, headers=headers)
         response = json.loads(str(response.text))
-        
+
+        print("\n\nConnection Establishment Response: ")
+        print(response)
+        print("\n\n")
+
+        if "url" not in response.keys():
+            print("\n\nJARVIS-ERROR:")
+            print("COULD NOT ESTABLISH CONNECTION TO SLACK API!!!")
+            print("\n\t * TRY REINSTALLING JARVIS APP TO WORKSPACE AND REGENERATED ENCRYPTED KEYS")
+            print("\n\t * See misc/encryption_example.py to encrypt tokens!")
+            print("\nEXITING... Bye!")
+            sys.exit()
+
         return response["url"]
 
 
