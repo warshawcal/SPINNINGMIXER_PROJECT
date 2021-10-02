@@ -78,7 +78,7 @@ class SlackAPIHandler:
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.send_message_to_recipient")
     def send_message_to_recipient(self, message, recipient="Jarvis"):
         """
-        Deafult channel is the "general" channel
+        Send message to a receipient on Slack
         """
         headers = {
                     "Authorization": "Bearer " + self.return_slack_api_token(),
