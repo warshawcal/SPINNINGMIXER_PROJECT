@@ -75,6 +75,7 @@ class SlackAPIHandler:
         
         return False
 
+    @error_handler(debug_mode=True,function_name="SlackAPIHandler.send_message_to_recipient")
     def send_message_to_recipient(self, message, recipient="Jarvis"):
         """
         Deafult channel is the "general" channel
@@ -90,6 +91,7 @@ class SlackAPIHandler:
         response = requests.post(url, headers=headers, data=data)
         response = json.loads(str(response.text))
 
+    @error_handler(debug_mode=True,function_name="SlackAPIHandler.return_slack_app_token")
     def return_slack_app_token(self):
         """
         Load the encrypted slack app token from the env, decrypts it, and returns the 
@@ -103,6 +105,7 @@ class SlackAPIHandler:
         
         return str(base64_decrypted_app_token)
 
+    @error_handler(debug_mode=True,function_name="SlackAPIHandler.return_slack_api_token")
     def return_slack_api_token(self):
         """
         Load the encrypted slack api token from the env, decrypts it, and returns the 
@@ -116,6 +119,7 @@ class SlackAPIHandler:
         
         return str(base64_decrypted_api_token)
 
+    @error_handler(debug_mode=True,function_name="SlackAPIHandler.get_connection_url")
     def get_connection_url(self):
         """
         Returns the opening connection from Slack API for the web socket

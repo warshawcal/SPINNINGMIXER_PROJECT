@@ -19,7 +19,7 @@ class DAO:
         self.JarvisDB_conn, self.JarvisDB_cur = self.JarvisDB.return_database() # get connection objects to db
         self.create_training_data_table() # create the training data table if it doesn't exist
 
-    #@error_handler(debug_mode=True,function_name="DAO.create_training_data_table")
+    @error_handler(debug_mode=True,function_name="DAO.create_training_data_table")
     def create_training_data_table(self):
         """
         Creates the training data table in the database if it doesn't exist
@@ -28,7 +28,7 @@ class DAO:
         self.JarvisDB_cur.execute(sql_string)
         self.JarvisDB_conn.commit()
 
-        #@error_handler(debug_mode=True,function_name="DAO.create_training_data_table")
+    @error_handler(debug_mode=True,function_name="DAO.create_training_data_table")
     def return_training_data_table(self):
         """
         Returns the training data table as a pandas dataframe
@@ -38,7 +38,7 @@ class DAO:
 
         return df
 
-    #@error_handler(debug_mode=True,function_name="DAO.insert_training_data")
+    @error_handler(debug_mode=True,function_name="DAO.insert_training_data")
     def insert_training_data(self,data):
         """
         Inserts data into the Jarvis database

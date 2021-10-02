@@ -3,6 +3,10 @@ import os
 import glob
 import sys
 
+"""
+This file is to create an error_handler decorator that we can wrap around all of our functions
+instead of adding try/except blocks all over the place.
+"""
 class ErrorHandlerContext:
 
 	def __init__(self, debug_mode, function_name):
