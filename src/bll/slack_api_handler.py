@@ -127,9 +127,9 @@ class SlackAPIHandler:
         response = requests.post(url, headers=headers)
         response = json.loads(str(response.text))
 
-        print("\n\nConnection Establishment Response: ")
-        print(response)
-        print("\n\n")
+        # print("\n\nConnection Establishment Response: ")
+        # print(response)
+        # print("\n\n")
 
         if "url" not in response.keys():
             print("\n\nJARVIS-ERROR:")
