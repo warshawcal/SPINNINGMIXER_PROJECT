@@ -76,7 +76,7 @@ class SlackAPIHandler:
         return False
 
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.send_message_to_recipient")
-    def send_message_to_recipient(self, message, recipient="Jarvis"):
+    def send_message_to_recipient(self, message, recipient):
         """
         Send message to a receipient on Slack
         """
