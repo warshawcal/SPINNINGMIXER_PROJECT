@@ -1,18 +1,78 @@
-import slack
 import os
-from pathlib import Path
-from dotenv import load_dotenv
 import base64
 import requests
 import json
 import sys
-"""
-This file handles all calls to the Slack API
-"""
+import pandas as pd
+from DAO.DAO import DAO
 
-class Slack_API_Handler:
 
-    def send_message_to_channel(self, message, channel="C02F17T7CK1"):
+class SlackAPIHandler:
+    """
+    This file handles all calls to the Slack API.
+    Mostly handles the action logic of Jarvis in response to events.
+    """
+
+    def __init__(self, enableTrace=False):
+
+        # recipient:id map for Slack API Handler
+        self.recipient2id = {
+            "Nicholas Hella" : "U02FCUM64NR",
+            "John"           : "U02G5KRTC8Y",
+            "Cal"            : "U02GADB06D6",
+            "Nick Knudson"   : "U02FGDFJQ78",
+            "Jarvis"         : "U02G827ANEA",
+            "general"        : "C02F17T7CK1"
+        }
+
+        # Boolean for whether Jarvis is in training mode
+        self.in_training_mode = False
+
+        # Creating Slack_API_Handler object attrbute to abstract Sqlite3 database stuff
+        self.Jarvis_DAO = DAO()
+
+
+    def handle_message(self, message, received_from):
+        """
+        Handles responses to messages recieved by Jarvis from receipient
+        """
+
+        if self.in_training_mode:
+            # Handle the message appropriately if in training mode --> @TODO
+            message = "Responding while I'm in training mode!"
+            self.send_message_to_recipient(message=message, recipient=received_from)
+            pass
+        else:
+            # Handle the message appropriately if in training mode --> @TODO
+            message = "Hello, I'm not in training mode. This is an automated response."
+            self.send_message_to_recipient(message=message, recipient=received_from)
+            pass
+
+    def trigger_training_mode_ON(self, message, received_from):
+        """
+        Returns True/False if Jarvis should be in training mode
+        """
+        if str(message).strip() == "training time" and self.in_training_mode == False:
+            message = "OK, I'm ready for training. What NAME should this ACTION be?"
+            self.send_message_to_recipient(message=message, recipient=received_from)
+            self.in_training_mode = True
+            return self.in_training_mode
+        
+        return False
+
+    def trigger_training_mode_OFF(self, message, received_from):
+        """
+        Returns True/False if Jarvis should be in training mode
+        """
+        if str(message).strip() == "done" and self.in_training_mode:
+            message = "OK, I'm done training."
+            self.in_training_mode = False
+            self.send_message_to_recipient(message=message, recipient=received_from)
+            return True
+        
+        return False
+
+    def send_message_to_recipient(self, message, recipient="Jarvis"):
         """
         Deafult channel is the "general" channel
         """
@@ -21,13 +81,15 @@ class Slack_API_Handler:
                     "Content-type": "application/x-www-form-urlencoded",
                 }
         url = "https://slack.com/api/chat.postMessage"
-        data = {"channel":channel,"text":message}
+        if recipient in self.recipient2id.keys(): 
+            recipient = self.recipient2id[recipient]
+        data = {"channel":recipient,"text":message}
         response = requests.post(url, headers=headers, data=data)
         response = json.loads(str(response.text))
 
     def return_slack_app_token(self):
         """
-        @TODO: Load the encrypted slack app token from the env, decrypts it, and returns the 
+        Load the encrypted slack app token from the env, decrypts it, and returns the 
         decrypted token
         """
         # Decrypting the ECRYPTED_SLACK_TOKEN env variable
@@ -40,7 +102,7 @@ class Slack_API_Handler:
 
     def return_slack_api_token(self):
         """
-        @TODO: Load the encrypted slack api token from the env, decrypts it, and returns the 
+        Load the encrypted slack api token from the env, decrypts it, and returns the 
         decrypted token
         """
         # Decrypting the ECRYPTED_SLACK_TOKEN env variable
@@ -53,19 +115,7 @@ class Slack_API_Handler:
 
     def get_connection_url(self):
         """
-        some curl command: 
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/asdfasdfasdf
-
-        equivalent python code:
-            headers = {
-                'Content-type': 'application/json',
-            }
-
-            data = '{"text":"Hello, World!"}'
-
-            response = requests.post('https://hooks.slack.com/services/asdfasdfasdf', headers=headers, data=data)
-
-        (https://stackoverflow.com/questions/25491090/how-to-use-python-to-execute-a-curl-command/48005899)
+        Returns the opening connection from Slack API for the web socket
         """
 
         # To get web socket URL, read the following: https://api.slack.com/apis/connections/socket-implement
@@ -78,3 +128,6 @@ class Slack_API_Handler:
         response = json.loads(str(response.text))
         
         return response["url"]
+
+
+#EOF
