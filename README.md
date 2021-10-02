@@ -20,14 +20,14 @@ DEVELOPER DOCUMENTATION:
         - Slack API tokens are expected to be base64 encrypted and stored in two environment variables:
                 - $ENCRYPTED_APP_TOKEN
                 - $ENCRYPTED_API_TOKEN
-        - To see encryption examples, look at misc/excryption_example.py
+        - To see encryption examples or encrypt your tokens, look at misc/excryption_example.py
         - *** Extra ***
             - Store the following in a .env file in the same directory as jarvis.py
                 # Use the ENCRYPTED_APP_TOKEN token when starting the websocket connection. 
-                    ENCRYPTED_APP_TOKEN = "Insert APP token here>"
+                    ENCRYPTED_APP_TOKEN = "Insert Base64 Encrypted APP token here>"
 
                 # Use the ENCRYPTED_API_TOKEN token when posting a message.
-                    ENCRYPTED_API_TOKEN = "<Insert API token here>"
+                    ENCRYPTED_API_TOKEN = "<Insert Base64 API token here>"
 
     * Software Pattern *
         - Code follows fascade software application development pattern:
