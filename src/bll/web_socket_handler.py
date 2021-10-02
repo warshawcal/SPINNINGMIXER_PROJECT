@@ -5,6 +5,7 @@ import websocket
 import requests
 import json
 from bll.slack_api_handler import SlackAPIHandler
+from bll.ErrorHandler import error_handler
 try:
     import thread
 except ImportError:
@@ -12,11 +13,14 @@ except ImportError:
 
 
 class WebSocketHandler:
+    """
+    This file handles all logic to the web socket connection.
+    Mostly handles the listening of Jarvis to our slack channel
+    """
 
     def __init__(self, enableTrace=False):
         """
         Initializing WebSocketHandler object
-        Mostly handles the listening of Jarvis to our slack channel
         """
         websocket.enableTrace(enableTrace) 
 
@@ -55,6 +59,7 @@ class WebSocketHandler:
 
         ws.send(str.encode(json.dumps(resp))) # send a response back to Slack acknowledging that you've received the event
 
+    @error_handler(debug_mode=True,function_name="WebSocketHandler.on_error")
     def on_error(self, ws, error):
         """
         Prints any errors related to the websocket connection

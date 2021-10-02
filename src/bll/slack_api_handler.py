@@ -5,15 +5,19 @@ import json
 import sys
 import pandas as pd
 from DAO.DAO import DAO
+from bll.ErrorHandler import error_handler
 
 
 class SlackAPIHandler:
     """
-    This file handles all calls to the Slack API.
+    This file handles all logic to the Slack API.
     Mostly handles the action logic of Jarvis in response to events.
     """
 
     def __init__(self, enableTrace=False):
+        """
+        Initializing SlackAPIHandler object.
+        """
 
         # recipient:id map for Slack API Handler
         self.recipient2id = {
@@ -36,7 +40,6 @@ class SlackAPIHandler:
         """
         Handles responses to messages recieved by Jarvis from receipient
         """
-
         if self.in_training_mode:
             # Handle the message appropriately if in training mode --> @TODO
             message = "Responding while I'm in training mode!"
@@ -96,9 +99,9 @@ class SlackAPIHandler:
         ENCRYPTED_APP_TOKEN = os.environ['ENCRYPTED_APP_TOKEN']
         base64_encrypted_output = ENCRYPTED_APP_TOKEN.encode('ascii')
         b64_output_bytes = base64.b64decode(base64_encrypted_output)
-        base64_decrypted_output = b64_output_bytes.decode('ascii')
+        base64_decrypted_app_token = b64_output_bytes.decode('ascii')
         
-        return str(base64_decrypted_output)
+        return str(base64_decrypted_app_token)
 
     def return_slack_api_token(self):
         """
@@ -109,9 +112,9 @@ class SlackAPIHandler:
         ENCRYPTED_API_TOKEN = os.environ['ENCRYPTED_API_TOKEN']
         base64_encrypted_output = ENCRYPTED_API_TOKEN.encode('ascii')
         b64_output_bytes = base64.b64decode(base64_encrypted_output)
-        base64_decrypted_output = b64_output_bytes.decode('ascii')
+        base64_decrypted_api_token = b64_output_bytes.decode('ascii')
         
-        return str(base64_decrypted_output)
+        return str(base64_decrypted_api_token)
 
     def get_connection_url(self):
         """
@@ -133,7 +136,7 @@ class SlackAPIHandler:
 
         if "url" not in response.keys():
             print("\n\nJARVIS-ERROR:")
-            print("COULD NOT ESTABLISH CONNECTION TO SLACK API!!!")
+            print("*** COULD NOT ESTABLISH CONNECTION TO SLACK API ***")
             print("\n\t * TRY REINSTALLING JARVIS APP TO WORKSPACE AND REGENERATED ENCRYPTED KEYS")
             print("\n\t * See misc/encryption_example.py to encrypt tokens!")
             print("\nEXITING... Bye!")

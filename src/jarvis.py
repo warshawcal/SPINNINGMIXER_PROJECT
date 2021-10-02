@@ -1,12 +1,12 @@
 import websocket
 from pathlib import Path
 from dotenv import load_dotenv
-from bll.ErrorHandler import error_handler
 from bll.web_socket_handler import WebSocketHandler
 
 class Jarvis:
-
-    #@error_handler(debug_mode=True, function_name="Jarvis.start")
+    """
+    Run file to start the Jarvis Bot
+    """
     def start(self):
 
         # Creating Jarvis object attrbute to abstract WebSocketApp and Slack API stuff
