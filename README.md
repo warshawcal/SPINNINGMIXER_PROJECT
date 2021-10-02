@@ -27,7 +27,7 @@ DEVELOPER DOCUMENTATION:
                     ENCRYPTED_APP_TOKEN = "Insert Base64 Encrypted APP token here>"
 
                 # Use the ENCRYPTED_API_TOKEN token when posting a message.
-                    ENCRYPTED_API_TOKEN = "<Insert Base64 API token here>"
+                    ENCRYPTED_API_TOKEN = "<Insert Encrypted Base64 API token here>"
 
     * Software Pattern *
         - Code follows fascade software application development pattern:
