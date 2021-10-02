@@ -1,0 +1,110 @@
+Git Instructions
+
+Author: Nick Hella
+
+
+NOTE: Up to this point, I’m assuming you’ve installed git on your machine and can run it from the command line.
+
+
+Your first steps are to create a project directory somewhere on your machine. 
+
+	For me, I run MacOS (Ubuntu), so I created project directory in:
+		~/Documents/CS_205/
+
+	If I were on Windows, it would probably look something like:
+		C:\Users\nhella\Documents\CS_205\
+
+
+Either way, move into this directory once you have created it. For me, I would enter:
+
+	MacOS: 
+		cd ~/Documents/CS_205/
+	Windows:
+		pushd C:\Users\nhella\Documents\CS_205\
+
+
+Now we're going to clone the Pandas_CS205 repository. Enter the following command:
+	
+	git clone https://github.com/thehellahub/Pandas_CS205.git
+
+
+Now move into the PANDAS_CS205 directory that's been created:
+
+	MacOS: 
+		cd PANDAS_CS205/
+	Windows:
+		pushd PANDAS_CS205/
+
+
+Enter the following command to see what command you're on:
+	
+	git rev-parse --abbrev-ref HEAD
+
+	NOTE: This command should return "master"
+
+
+Change into your branch, enter the following command:
+
+	git checkout <your_branch>
+
+NOTE: The name of your branch should be your first name, and has already been created for you
+
+To see a full list of the available branches, enter the following command:
+
+	git branch --list
+
+
+NOTE: If at any point you want to pull whatever is in the master branch, just execute the following:
+
+		git pull https://github.com/thehellahub/Pandas_CS205.git master
+
+NOTE: Although it is NOT recommended, to push to master branch execute the following:
+
+		git push origin HEAD:master
+
+
+AGAIN… ** IT IS ONLY RECOMMENDED THAT YOU PUSH TO YOUR BRANCH. PLEASE LET THE GITHUB ADMIN HANDLE MERGES, UNLESS YOU’RE ABSOLUTELY SURE THERE’S NO MERGE CONFLICTS **
+
+
+Ok, enough with the caps lock.  
+
+
+So let’s say we want to push all our file changes/additions to our branch..
+
+
+Here’s the series of commands we’re going to use:
+
+        git rev-parse --abbrev-ref HEAD (make sure you're on YOUR branch!!)
+
+		git status
+		git add <file1, file2, file3, etc. >
+		git commit -m “Add a comment that describes your new changes”
+		git pull
+		git push origin HEAD:<your_branch>
+		git status
+
+
+Note: That last line will likely prompt you to enter your GitHub username and password. Note that if you have 2FA/MFA (y’know..  when it texts your phone a code and you gotta enter it in) - it’s not going to work! At least, I didn’t figure that part out :]
+
+
+
+To remove something from your branch in git, execute the following commands
+
+	   	git checkout <your_branch>
+	   	git rm <file_to_delete>
+	   	git commit -am "deleting <file_to_delete>“
+	   	git push origin HEAD:<your_branch>
+	   	git status
+
+
+
+So what if you do a git status and see a file changed but you have no idea what's changed?
+
+The following command will show you file changes within the terminal:
+
+	git diff <file_name>
+
+
+	
+
+	
