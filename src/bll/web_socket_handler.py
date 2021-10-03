@@ -83,16 +83,8 @@ class WebSocketHandler:
                     print("\t "   + str(count+1) + ".) From: "    + self.data['From'][count]    )
                     count += 1
 
-                # Check if the message should trigger the training mode ON/OFF
-                if self.SlackAPIHandler.trigger_training_mode_ON(message_text, message_from):
-                    # DO SOMETHING IF TRAINING MODE TRIGGERED ON --> @TODO
-                    pass
-                elif self.SlackAPIHandler.trigger_training_mode_OFF(message_text, message_from):
-                    # DO SOMETHING IF TRAINING MODE TRIGGERED OFF --> @TODO
-                    pass
-                else:
-                    # IF NOT TRAINING MODE RELATED, HANDLE THE MESSAGE OTHERWISE
-                    self.SlackAPIHandler.handle_message(message_text, message_from)
+                # Handle the event response appropriately with SlackAPIHandler
+                self.SlackAPIHandler.handle_message(message_text, message_from)
         return
 
     @error_handler(debug_mode=True,function_name="WebSocketHandler.on_error")

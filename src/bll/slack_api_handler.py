@@ -45,11 +45,18 @@ class SlackAPIHandler:
         """
         Handles responses to messages recieved by Jarvis from receipient
         """
-        if self.in_training_mode:
-            # Handle the message appropriately if in training mode --> @TODO
+
+        # Toggle Jarvis training mode if necessary with appropriate henalding
+        if self.trigger_training_mode_ON(message, received_from):
+            pass
+        elif self.trigger_training_mode_OFF(message, received_from):
+            pass
+        # Handling for training mode
+        elif self.in_training_mode:
+            # Handle the message appropriately if in training mode --> @TODO: Pump data into jarvisdb
             self.handle_training(message,received_from)
         else:
-            # Handle the message appropriately if in training mode --> @TODO
+            # Handle the message appropriately if not in training mode --> @TODO: Everything else..
             message = "Hello, I'm not in training mode. Enter \"training time\" to enable training mode " + \
                       "and enter \"done\" to disable training mode"
             self.send_message_to_recipient(message=message, recipient=received_from)
@@ -80,7 +87,6 @@ class SlackAPIHandler:
         """
         Returns True/False if Jarvis should be in training mode
         """
-
         if str(message).strip() == "training time" and self.in_training_mode == False:
             # Mimicing the training data table in jarvisdb in the data dictionary
             self.data['training_data'] = dict(())
