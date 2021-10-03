@@ -4,6 +4,7 @@ import requests
 import json
 import sys
 import pandas as pd
+import time
 from DAO.DAO import DAO
 from bll.ErrorHandler import error_handler
 
@@ -29,8 +30,17 @@ class SlackAPIHandler:
             "general"        : "C02F17T7CK1"
         }
 
+        # Data from conversation
+        self.data = dict(())
+
+        # Replicating the training_data table in the data dict
+        self.data['training_data'] = dict(())
+        self.data['training_data']['SUBJECT'] = None
+        self.data['training_data']['MESSAGES'] = []
+
         # Boolean for whether Jarvis is in training mode
         self.in_training_mode = False
+        self.print_training_data = True
 
         # Creating Slack_API_Handler object attrbute to abstract Sqlite3 database stuff
         self.Jarvis_DAO = DAO()
@@ -42,38 +52,76 @@ class SlackAPIHandler:
         """
         if self.in_training_mode:
             # Handle the message appropriately if in training mode --> @TODO
-            message = "Responding while I'm in training mode!"
-            self.send_message_to_recipient(message=message, recipient=received_from)
-            pass
+            self.handle_training(message,received_from)
         else:
             # Handle the message appropriately if in training mode --> @TODO
             message = "Hello, I'm not in training mode. This is an automated response."
             self.send_message_to_recipient(message=message, recipient=received_from)
             pass
 
+    def handle_training(self, message, received_from):
+        """
+        Handles Jarvis's training response
+        """
+        # Get the subject, if Jarvis hasn't already gotten it
+        if self.data['training_data']['SUBJECT'] is None:
+            self.data['training_data']['SUBJECT'] = str(message).strip()
+            message = "Ok, let's call this SUBJECT `" + str(message).strip() + "`. " \
+                    + "Now give me some training text!"
+            self.send_message_to_recipient(message=message, recipient=received_from)
+        # Else, get some training text!
+        else:
+            self.data['training_data']['MESSAGES'].append(str(message).strip())
+            message = "Ok, I've got it! What else?"
+            self.send_message_to_recipient(message=message, recipient=received_from)
+
+
     def trigger_training_mode_ON(self, message, received_from):
         """
         Returns True/False if Jarvis should be in training mode
         """
         if str(message).strip() == "training time" and self.in_training_mode == False:
-            message = "OK, I'm ready for training. What NAME should this ACTION be?"
+            message = "OK, I'm ready for training. What should the SUBJECT be?"
             self.send_message_to_recipient(message=message, recipient=received_from)
             self.in_training_mode = True
             return self.in_training_mode
         
         return False
 
+    def print_training_data_status(self):
+        """
+        Returns the training data Jarvis has stored
+        """
+        print("\nJARVIS TRAINING DATA TABLE")
+        print("\tSUBJECT: " + str(self.data['training_data']['SUBJECT']))
+        print("\tTRAINING TEXT:")
+        count = 1
+        for message in self.data['training_data']['MESSAGES']:
+            print("\t\t* " + str(count) + ") " + str(message))
+            count += 1
+        print("\n")
+
+
     def trigger_training_mode_OFF(self, message, received_from):
         """
         Returns True/False if Jarvis should be in training mode
         """
         if str(message).strip() == "done" and self.in_training_mode:
-            message = "OK, I'm done training."
+            message = "OK, I'm done training. Saving results.."
             self.in_training_mode = False
             self.send_message_to_recipient(message=message, recipient=received_from)
+            self.save_training_data_to_jarvis_database()
+            time.sleep(1)
             return True
         
         return False
+
+    def save_training_data_to_jarvis_database(self):
+        # @TODO: Finish
+        if self.print_training_data:
+                self.print_training_data_status()
+        print("Saving training data to Jarvis database!")
+        pass
 
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.send_message_to_recipient")
     def send_message_to_recipient(self, message, recipient):

@@ -27,6 +27,11 @@ class WebSocketHandler:
         # Creating WebSocketHandler object attrbute to abstract Slack API stuff
         self.SlackAPIHandler = SlackAPIHandler()
 
+        # This tuple keeps track of the last message and who it was from
+        # Useful for not sending any duplicate api calls that may be sent to
+        # the web socket
+        self.message_received_and_from_tuple = (None,None)
+
     def on_message(self, ws, message):
         """
         Reads incoming messages from the websocket connection
@@ -46,16 +51,27 @@ class WebSocketHandler:
             message_text = str(message["payload"]["event"]["text"])
             message_from = str(message["payload"]["event"]["user"])
 
-            # Check if the message should trigger the training mode ON/OFF
-            if self.SlackAPIHandler.trigger_training_mode_ON(message_text, message_from):
-                # DO SOMETHING IF TRAINING MODE TRIGGERED ON --> @TODO
-                pass
-            elif self.SlackAPIHandler.trigger_training_mode_OFF(message_text, message_from):
-                # DO SOMETHING IF TRAINING MODE TRIGGERED OFF --> @TODO
-                pass
-            else:
-                # IF NOT TRAINING MODE RELATED, HANDLE THE MESSAGE OTHERWISE
-                self.SlackAPIHandler.handle_message(message_text, message_from)
+            # DEBUG MESSAGES
+            print("\nJARVIS-INFO: Message received: ")
+            print("\tTEXT: " + message_text)
+            print("\tFROM: " + message_from)
+
+            # Prevent duplicate call traffic from interfering with user experience
+            if (message_text,message_from) != self.message_received_and_from_tuple:
+
+                # Reset the tuple
+                self.message_received_and_from_tuple = (message_text,message_from)
+
+                # Check if the message should trigger the training mode ON/OFF
+                if self.SlackAPIHandler.trigger_training_mode_ON(message_text, message_from):
+                    # DO SOMETHING IF TRAINING MODE TRIGGERED ON --> @TODO
+                    pass
+                elif self.SlackAPIHandler.trigger_training_mode_OFF(message_text, message_from):
+                    # DO SOMETHING IF TRAINING MODE TRIGGERED OFF --> @TODO
+                    pass
+                else:
+                    # IF NOT TRAINING MODE RELATED, HANDLE THE MESSAGE OTHERWISE
+                    self.SlackAPIHandler.handle_message(message_text, message_from)
 
         ws.send(str.encode(json.dumps(resp))) # send a response back to Slack acknowledging that you've received the event
 
