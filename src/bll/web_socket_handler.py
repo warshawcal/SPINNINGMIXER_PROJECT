@@ -53,7 +53,7 @@ class WebSocketHandler:
 
         # # DEBUG INCOMING MESSAGE
         if str(message["payload"]["event"]["user"]).strip() != self.SlackAPIHandler.recipient2id["Jarvis"]:
-            print("\nJARVIS-INFO: Message received: ")
+            print("\nJARVIS-INFO: Message Received: ")
             print("\tTEXT: " + message_text)
             print("\tFROM: " + message_from) 
 
@@ -70,7 +70,7 @@ class WebSocketHandler:
             if ( len(self.data['Message']) == 0 and len(self.data['From']) == 0 ) or \
                ( message_text != last_message_text ):
 
-                # Reset the tuple
+                # Cache the message to the data dictionary
                 self.data['From'].append(message_from)
                 self.data['Message'].append(message_text)
                 self.num_received_messages += 1
