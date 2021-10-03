@@ -46,7 +46,7 @@ class SlackAPIHandler:
         Handles responses to messages recieved by Jarvis from receipient
         """
 
-        # Toggle Jarvis training mode if necessary with appropriate henalding
+        # Toggle Jarvis training mode if necessary with appropriate handling
         if self.trigger_training_mode_ON(message, received_from):
             pass
         elif self.trigger_training_mode_OFF(message, received_from):
