@@ -27,10 +27,13 @@ class WebSocketHandler:
         # Creating WebSocketHandler object attrbute to abstract Slack API stuff
         self.SlackAPIHandler = SlackAPIHandler()
 
-        # This tuple keeps track of the last message and who it was from
+        # This dictionary keeps track of the messages Jarvis receives
         # Useful for not sending any duplicate api calls that may be sent to
         # the web socket
-        self.message_received_and_from_tuple = (None,None)
+        self.data = dict(())
+        self.data['Message'] = []
+        self.data['From'] = []
+        self.num_received_messages = -1
 
     def on_message(self, ws, message):
         """
@@ -43,6 +46,7 @@ class WebSocketHandler:
         envelope_id = message['envelope_id']
         keys = message.keys()
         resp = {'envelope_id': envelope_id }
+        ws.send(str.encode(json.dumps(resp))) # send a response back to Slack acknowledging that you've received the event
 
         # Print if someone sends a message to Jarvis (as long as it's not from Jarvis)
         if str(message["payload"]["event"]["type"]).strip() == "message" and \
@@ -51,16 +55,37 @@ class WebSocketHandler:
             message_text = str(message["payload"]["event"]["text"])
             message_from = str(message["payload"]["event"]["user"])
 
-            # DEBUG MESSAGES
-            print("\nJARVIS-INFO: Message received: ")
-            print("\tTEXT: " + message_text)
-            print("\tFROM: " + message_from)
+            # DEBUG INCOMING MESSAGE
+            # print("\nJARVIS-INFO: Message received: ")
+            # print("\tTEXT: " + message_text)
+            # print("\tFROM: " + message_from) 
+
+            # GET PREVIOUS MESSAGE RECEIVED
+            if ( len(self.data['Message']) > 0 and len(self.data['From']) > 0 ):
+                last_message_text = str(self.data['Message'][self.num_received_messages]).strip()
+                last_message_from = str(self.data['From'][self.num_received_messages]).strip()
+
+                # DEBUG
+                # print("\nJARVIS-INFO: Previous Message")
+                # print("\tLAST MESSAGE RECEIVED TEXT: " + str(self.data['Message'][self.num_received_messages]).strip())
+                # print("\tLAST MESSAGE RECEIVED FROM: " + str(self.data['From'][self.num_received_messages]).strip())
+
 
             # Prevent duplicate call traffic from interfering with user experience
-            if (message_text,message_from) != self.message_received_and_from_tuple:
+            if ( len(self.data['Message']) == 0 and len(self.data['From']) == 0 ) or ( message_text != last_message_text ):
 
                 # Reset the tuple
-                self.message_received_and_from_tuple = (message_text,message_from)
+                self.data['From'].append(message_from)
+                self.data['Message'].append(message_text)
+                self.num_received_messages += 1
+
+                # DEBUG MESSAGE HISTORY
+                # print("\nJARVIS-INFO: Messages History Table ")
+                # count = 0 
+                # while count < len(self.data['Message']):
+                #     print("\t " + str(count+1) + ".) MESSAGE: " + self.data['Message'][count])
+                #     print("\t " + str(count+1) + ".) From: " + self.data['From'][count])
+                #     count += 1
 
                 # Check if the message should trigger the training mode ON/OFF
                 if self.SlackAPIHandler.trigger_training_mode_ON(message_text, message_from):
@@ -73,15 +98,16 @@ class WebSocketHandler:
                     # IF NOT TRAINING MODE RELATED, HANDLE THE MESSAGE OTHERWISE
                     self.SlackAPIHandler.handle_message(message_text, message_from)
 
-        ws.send(str.encode(json.dumps(resp))) # send a response back to Slack acknowledging that you've received the event
+            
 
-    @error_handler(debug_mode=True,function_name="WebSocketHandler.on_error")
+
+    #@error_handler(debug_mode=True,function_name="WebSocketHandler.on_error")
     def on_error(self, ws, error):
         """
         Prints any errors related to the websocket connection
         """
         if len(str(error)) > 0:
-            print("\nJARVIS-ERROR:")
+            print("\nJARVIS-ERROR: on_error")
             print(error)
             print("\n")
             

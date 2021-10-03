@@ -31,16 +31,11 @@ class SlackAPIHandler:
         }
 
         # Data from conversation
-        self.data = dict(())
-
-        # Replicating the training_data table in the data dict
-        self.data['training_data'] = dict(())
-        self.data['training_data']['SUBJECT'] = None
-        self.data['training_data']['MESSAGES'] = []
+        self.data = dict(())        
 
         # Boolean for whether Jarvis is in training mode
         self.in_training_mode = False
-        self.print_training_data = True
+        self.print_the_training_data = True
 
         # Creating Slack_API_Handler object attrbute to abstract Sqlite3 database stuff
         self.Jarvis_DAO = DAO()
@@ -80,19 +75,24 @@ class SlackAPIHandler:
         """
         Returns True/False if Jarvis should be in training mode
         """
+
         if str(message).strip() == "training time" and self.in_training_mode == False:
+            # Mimicing the training data table in jarvisdb in the data dictionary
+            self.data['training_data'] = dict(())
+            self.data['training_data']['SUBJECT'] = None
+            self.data['training_data']['MESSAGES'] = []
+            self.in_training_mode = True # Activating Jarvis training mode
             message = "OK, I'm ready for training. What should the SUBJECT be?"
             self.send_message_to_recipient(message=message, recipient=received_from)
-            self.in_training_mode = True
             return self.in_training_mode
         
         return False
 
-    def print_training_data_status(self):
+    def print_training_data(self):
         """
         Returns the training data Jarvis has stored
         """
-        print("\nJARVIS TRAINING DATA TABLE")
+        print("\nJARVIS-INFO: TRAINING DATA TABLE")
         print("\tSUBJECT: " + str(self.data['training_data']['SUBJECT']))
         print("\tTRAINING TEXT:")
         count = 1
@@ -100,6 +100,8 @@ class SlackAPIHandler:
             print("\t\t* " + str(count) + ") " + str(message))
             count += 1
         print("\n")
+
+        return
 
 
     def trigger_training_mode_OFF(self, message, received_from):
@@ -118,8 +120,8 @@ class SlackAPIHandler:
 
     def save_training_data_to_jarvis_database(self):
         # @TODO: Finish
-        if self.print_training_data:
-                self.print_training_data_status()
+        if self.print_the_training_data:
+                self.print_training_data()
         print("Saving training data to Jarvis database!")
         pass
 
