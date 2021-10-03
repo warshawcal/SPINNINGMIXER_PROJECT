@@ -66,12 +66,7 @@ class WebSocketHandler:
                 last_message_text = str(self.data['Message'][self.num_received_messages-1]).strip()
                 last_message_from = str(self.data['From'][self.num_received_messages-1]).strip()
 
-                # # # DEBUG
-                # print("\nJARVIS-INFO: Previous Message")
-                # print("\tLAST MESSAGE RECEIVED TEXT: " + str(self.data['Message'][self.num_received_messages-1]).strip())
-                # print("\tLAST MESSAGE RECEIVED FROM: " + str(self.data['From'][self.num_received_messages-1]).strip())
-
-            # Prevent duplicate call traffic from interfering with user experience
+            # Prevent duplicate websocket traffic from interfering with user experience
             if ( len(self.data['Message']) == 0 and len(self.data['From']) == 0 ) or \
                ( message_text != last_message_text ):
 
@@ -98,6 +93,7 @@ class WebSocketHandler:
                 else:
                     # IF NOT TRAINING MODE RELATED, HANDLE THE MESSAGE OTHERWISE
                     self.SlackAPIHandler.handle_message(message_text, message_from)
+        return
 
     @error_handler(debug_mode=True,function_name="WebSocketHandler.on_error")
     def on_error(self, ws, error):
@@ -108,18 +104,21 @@ class WebSocketHandler:
             print("\nJARVIS-ERROR: on_error")
             print(error)
             print("\n")
+
+        return
             
     def on_close(self):
         """
         Handles the closing of the websocket connection
         """
         self.ws.close()
+        return
 
     def on_open(self, ws):
         """
         Useless function from skeleton
         """
-        pass
+        return
     
     def return_websocket(self):
         """

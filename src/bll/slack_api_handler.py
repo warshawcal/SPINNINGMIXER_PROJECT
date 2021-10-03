@@ -50,9 +50,12 @@ class SlackAPIHandler:
             self.handle_training(message,received_from)
         else:
             # Handle the message appropriately if in training mode --> @TODO
-            message = "Hello, I'm not in training mode. This is an automated response."
+            message = "Hello, I'm not in training mode. Enter \"training time\" to enable training mode " + \
+                      "and enter \"done\" to disable training mode"
             self.send_message_to_recipient(message=message, recipient=received_from)
             pass
+
+        return
 
     def handle_training(self, message, received_from):
         """
@@ -66,10 +69,12 @@ class SlackAPIHandler:
             self.send_message_to_recipient(message=message, recipient=received_from)
         # Else, get some training text!
         else:
-            self.data['training_data']['MESSAGES'].append(str(message).strip())
+            if str(self.data['training_data']['SUBJECT']).strip() != message:
+                self.data['training_data']['MESSAGES'].append(str(message).strip())
             message = "Ok, I've got it! What else?"
             self.send_message_to_recipient(message=message, recipient=received_from)
 
+        return
 
     def trigger_training_mode_ON(self, message, received_from):
         """
@@ -123,7 +128,8 @@ class SlackAPIHandler:
         if self.print_the_training_data:
                 self.print_training_data()
         print("Saving training data to Jarvis database!")
-        pass
+        
+        return
 
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.send_message_to_recipient")
     def send_message_to_recipient(self, message, recipient):
@@ -140,6 +146,8 @@ class SlackAPIHandler:
         data = {"channel":recipient,"text":message}
         response = requests.post(url, headers=headers, data=data)
         response = json.loads(str(response.text))
+
+        return
 
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.return_slack_app_token")
     def return_slack_app_token(self):
