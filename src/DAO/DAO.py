@@ -28,6 +28,8 @@ class DAO:
         self.JarvisDB_cur.execute(sql_string)
         self.JarvisDB_conn.commit()
 
+        return
+
     @error_handler(debug_mode=True,function_name="DAO.create_training_data_table")
     def return_training_data_table(self):
         """
@@ -55,4 +57,6 @@ class DAO:
         self.JarvisDB_cur.execute(sql_string)
         self.JarvisDB_conn.commit()
 
+        return
+        
 #EOF
