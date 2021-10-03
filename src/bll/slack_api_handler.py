@@ -133,6 +133,10 @@ class SlackAPIHandler:
         # @TODO: Finish
         if self.print_the_training_data:
                 self.print_training_data()
+
+        for message in self.data['training_data']['MESSAGES']:
+            self.Jarvis_DAO.insert_training_data(subject=self.data['training_data']['SUBJECT'],
+                                                 message=message)
         print("Saving training data to Jarvis database!")
         
         return

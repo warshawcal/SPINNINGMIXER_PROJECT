@@ -41,22 +41,22 @@ class DAO:
         return df
 
     @error_handler(debug_mode=True,function_name="DAO.insert_training_data")
-    def insert_training_data(self,data):
+    def insert_training_data(self, subject, message):
         """
         Inserts data into the Jarvis database
         """
+        # Check if data already exists in db
+        sql_string = "SELECT * FROM training_data WHERE SUBJECT = '{}' AND MESSAGE = '{}';".format(subject,message)
+        df = pd.read_sql_query(sql_string, self.JarvisDB_conn)
 
-        # Get the subject and the message from data dict
-        subject = data['SUBJECT']
-        message = data['MESSAGE']
-
-        # Write SQL INSERT string
-        sql_string = "INSERT INTO training_data (SUBJECT, MESSAGE) VALUES ('{}', '{}');".format(subject,message)
-        
-        # Insert data into the Jarvis database
-        self.JarvisDB_cur.execute(sql_string)
-        self.JarvisDB_conn.commit()
+        # If not, write SQL INSERT string
+        if len(df) == 0:
+            sql_string = "INSERT INTO training_data (SUBJECT, MESSAGE) VALUES ('{}', '{}');".format(subject,message)
+            
+            # Insert data into the Jarvis database
+            self.JarvisDB_cur.execute(sql_string)
+            self.JarvisDB_conn.commit()
 
         return
-        
+
 #EOF
