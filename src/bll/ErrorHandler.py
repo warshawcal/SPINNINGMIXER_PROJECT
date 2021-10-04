@@ -41,12 +41,12 @@ class ErrorHandlerContext:
 
 		else:
 			if self.debug_mode:
-					print("\n\n JARVIS ERROR HANDLER REPORT: " + \
-						" \n\nFUNCTION: "  + "\n"  + str(self.function_name)+ \
-						" \n\nEXC TYPE: "  + "\n"  + str(exc_type) 			+ \
-						" \n\nEXC VALUE: " + "\n"  + str(exc_value) 		+ \
-						" \n\nPUNCHLINE: " + "\n"  + str(punchline) 		+ \
-						" \n\nERROR TRACEBACK: "   + "\n" + str(traceback_)   )
+					print("\n\nJARVIS ERROR HANDLER REPORT: \n" + \
+						" \n\tFUNCTION: "  + "\n\t\t"  + str(self.function_name)+ \
+						" \n\tEXC TYPE: "  + "\n\t\t"  + str(exc_type) 			+ \
+						" \n\tEXC VALUE: " + "\n\t\t"  + str(exc_value) 		+ \
+						" \n\tPUNCHLINE: " + "\n\t\t"  + str(punchline) 		+ \
+						" \n\tERROR TRACEBACK: "   + "\n\t\t" + ''.join(str(traceback.format_tb(traceback_)))   )
 		return
 
 def error_handler(debug_mode,function_name):

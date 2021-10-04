@@ -69,15 +69,15 @@ class SlackAPIHandler:
         Handles Jarvis's training response
         """
         # Get the subject, if Jarvis hasn't already gotten it
-        if self.data['training_data']['SUBJECT'] is None:
-            self.data['training_data']['SUBJECT'] = str(message).strip()
-            message = "Ok, let's call this SUBJECT `" + str(message).strip() + "`. " \
+        if self.data['training_data']['ACTION'] is None:
+            self.data['training_data']['ACTION'] = str(message).strip()
+            message = "Ok, let's call this ACTION `" + str(message).strip() + "`. " \
                     + "Now give me some training text!"
             self.send_message_to_recipient(message=message, recipient=received_from)
         # Else, get some training text!
         else:
-            if str(self.data['training_data']['SUBJECT']).strip() != message:
-                self.data['training_data']['MESSAGES'].append(str(message).strip())
+            if str(self.data['training_data']['ACTION']).strip() != message:
+                self.data['training_data']['TEXT'].append(str(message).strip())
             message = "Ok, I've got it! What else?"
             self.send_message_to_recipient(message=message, recipient=received_from)
 
@@ -90,10 +90,10 @@ class SlackAPIHandler:
         if str(message).strip() == "training time" and self.in_training_mode == False:
             # Mimicing the training data table in jarvisdb in the data dictionary
             self.data['training_data'] = dict(())
-            self.data['training_data']['SUBJECT'] = None
-            self.data['training_data']['MESSAGES'] = []
+            self.data['training_data']['ACTION'] = None
+            self.data['training_data']['TEXT'] = []
             self.in_training_mode = True # Activating Jarvis training mode
-            message = "OK, I'm ready for training. What should the SUBJECT be?"
+            message = "OK, I'm ready for training. What should NAME should this ACTION be?"
             self.send_message_to_recipient(message=message, recipient=received_from)
             return self.in_training_mode
         
@@ -104,10 +104,10 @@ class SlackAPIHandler:
         Returns the training data Jarvis has stored
         """
         print("\nJARVIS-INFO: TRAINING DATA TABLE")
-        print("\tSUBJECT: " + str(self.data['training_data']['SUBJECT']))
+        print("\tNAME: " + str(self.data['training_data']['ACTION']))
         print("\tTRAINING TEXT:")
         count = 1
-        for message in self.data['training_data']['MESSAGES']:
+        for message in self.data['training_data']['TEXT']:
             print("\t\t* " + str(count) + ") " + str(message))
             count += 1
         print("\n")
@@ -124,7 +124,6 @@ class SlackAPIHandler:
             self.in_training_mode = False
             self.send_message_to_recipient(message=message, recipient=received_from)
             self.save_training_data_to_jarvis_database()
-            time.sleep(1)
             return True
         
         return False
@@ -134,9 +133,9 @@ class SlackAPIHandler:
         if self.print_the_training_data:
                 self.print_training_data()
 
-        for message in self.data['training_data']['MESSAGES']:
-            self.Jarvis_DAO.insert_training_data(subject=self.data['training_data']['SUBJECT'],
-                                                 message=message)
+        for message in self.data['training_data']['TEXT']:
+            self.Jarvis_DAO.insert_training_data(action=self.data['training_data']['ACTION'],
+                                                 text=message)
         print("Saving training data to Jarvis database!")
         
         return

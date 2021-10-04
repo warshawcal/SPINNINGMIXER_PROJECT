@@ -24,7 +24,7 @@ class DAO:
         """
         Creates the training data table in the database if it doesn't exist
         """
-        sql_string = "CREATE TABLE IF NOT EXISTS training_data (SUBJECT Text, MESSAGE Text);"
+        sql_string = "CREATE TABLE IF NOT EXISTS training_data (ACTION Text, TEXT Text);"
         self.JarvisDB_cur.execute(sql_string)
         self.JarvisDB_conn.commit()
 
@@ -41,17 +41,17 @@ class DAO:
         return df
 
     @error_handler(debug_mode=True,function_name="DAO.insert_training_data")
-    def insert_training_data(self, subject, message):
+    def insert_training_data(self, action, text):
         """
         Inserts training data into the Jarvis database
         """
         # Check if data already exists in db
-        sql_string = "SELECT * FROM training_data WHERE SUBJECT = '{}' AND MESSAGE = '{}';".format(subject,message)
+        sql_string = "SELECT * FROM training_data WHERE ACTION = '{}' AND TEXT = '{}';".format(action,text)
         df = pd.read_sql_query(sql_string, self.JarvisDB_conn)
 
         # If not, write SQL INSERT string
         if len(df) == 0:
-            sql_string = "INSERT INTO training_data (SUBJECT, MESSAGE) VALUES ('{}', '{}');".format(subject,message)
+            sql_string = "INSERT INTO training_data (ACTION, TEXT) VALUES ('{}', '{}');".format(action,text)
             
             # Insert data into the Jarvis database
             self.JarvisDB_cur.execute(sql_string)
