@@ -93,7 +93,7 @@ class SlackAPIHandler:
             self.data['training_data']['ACTION'] = None
             self.data['training_data']['TEXT'] = []
             self.in_training_mode = True # Activating Jarvis training mode
-            message = "OK, I'm ready for training. What should NAME should this ACTION be?"
+            message = "OK, I'm ready for training. What NAME should this ACTION be?"
             self.send_message_to_recipient(message=message, recipient=received_from)
             return self.in_training_mode
         
@@ -104,7 +104,7 @@ class SlackAPIHandler:
         Returns the training data Jarvis has stored
         """
         print("\nJARVIS-INFO: TRAINING DATA TABLE")
-        print("\tNAME: " + str(self.data['training_data']['ACTION']))
+        print("\tACTION: " + str(self.data['training_data']['ACTION']))
         print("\tTRAINING TEXT:")
         count = 1
         for message in self.data['training_data']['TEXT']:
