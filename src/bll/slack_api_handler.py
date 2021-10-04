@@ -188,8 +188,8 @@ class SlackAPIHandler:
         # Getting encrypted app token from .encrypted_api_keys file
         for line in open('.env', 'r').readlines():
             line = line.replace(" ", "") # Removing all spaces
-            if line.startswith("#") is False and line.startswith("ENCRYPTED_APP_TOKEN") is True:
-                    ENCRYPTED_API_TOKEN = line.replace("ENCRYPTED_APP_TOKEN=", "").strip()
+            if line.startswith("#") is False and line.startswith("ENCRYPTED_API_TOKEN") is True:
+                    ENCRYPTED_API_TOKEN = line.replace("ENCRYPTED_API_TOKEN=", "").strip()
                     ENCRYPTED_API_TOKEN = ENCRYPTED_API_TOKEN.replace("\"", "").strip()
 
         base64_encrypted_output = ENCRYPTED_API_TOKEN.encode('ascii')

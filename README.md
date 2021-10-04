@@ -37,7 +37,7 @@ DEVELOPER DOCUMENTATION:
                 - Jarvis
                     (Business Logic Layer)
                         - WebSocketHandler
-                        - Slack_API_Handler
+                          - Slack_API_Handler
                             (Data Access Object Layer)
                                 - DAO (Data Access Object)
                                     (Database Layer)
