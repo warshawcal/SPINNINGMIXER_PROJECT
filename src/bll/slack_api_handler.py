@@ -165,8 +165,14 @@ class SlackAPIHandler:
         Load the encrypted slack app token from the env, decrypts it, and returns the 
         decrypted token
         """
-        # Decrypting the ECRYPTED_SLACK_TOKEN env variable
-        ENCRYPTED_APP_TOKEN = os.environ['ENCRYPTED_APP_TOKEN']
+        # Getting encrypted app token from .encrypted_api_keys file
+        for line in open('.env', 'r').readlines():
+            line = line.replace(" ", "") # Removing all spaces
+            if line.startswith("#") is False and line.startswith("ENCRYPTED_APP_TOKEN") is True:
+                    ENCRYPTED_APP_TOKEN = line.replace("ENCRYPTED_APP_TOKEN=", "").strip()
+                    ENCRYPTED_APP_TOKEN = ENCRYPTED_APP_TOKEN.replace("\"", "").strip()
+
+        # Decrypting the b64 encoded token
         base64_encrypted_output = ENCRYPTED_APP_TOKEN.encode('ascii')
         b64_output_bytes = base64.b64decode(base64_encrypted_output)
         base64_decrypted_app_token = b64_output_bytes.decode('ascii')
@@ -179,8 +185,13 @@ class SlackAPIHandler:
         Load the encrypted slack api token from the env, decrypts it, and returns the 
         decrypted token
         """
-        # Decrypting the ECRYPTED_SLACK_TOKEN env variable
-        ENCRYPTED_API_TOKEN = os.environ['ENCRYPTED_API_TOKEN']
+        # Getting encrypted app token from .encrypted_api_keys file
+        for line in open('.env', 'r').readlines():
+            line = line.replace(" ", "") # Removing all spaces
+            if line.startswith("#") is False and line.startswith("ENCRYPTED_APP_TOKEN") is True:
+                    ENCRYPTED_API_TOKEN = line.replace("ENCRYPTED_APP_TOKEN=", "").strip()
+                    ENCRYPTED_API_TOKEN = ENCRYPTED_API_TOKEN.replace("\"", "").strip()
+
         base64_encrypted_output = ENCRYPTED_API_TOKEN.encode('ascii')
         b64_output_bytes = base64.b64decode(base64_encrypted_output)
         base64_decrypted_api_token = b64_output_bytes.decode('ascii')

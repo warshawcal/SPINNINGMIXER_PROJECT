@@ -43,7 +43,7 @@ class DAO:
     @error_handler(debug_mode=True,function_name="DAO.insert_training_data")
     def insert_training_data(self, subject, message):
         """
-        Inserts data into the Jarvis database
+        Inserts training data into the Jarvis database
         """
         # Check if data already exists in db
         sql_string = "SELECT * FROM training_data WHERE SUBJECT = '{}' AND MESSAGE = '{}';".format(subject,message)

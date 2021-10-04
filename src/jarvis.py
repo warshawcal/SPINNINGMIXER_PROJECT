@@ -1,6 +1,5 @@
 import websocket
 from pathlib import Path
-from dotenv import load_dotenv
 from bll.web_socket_handler import WebSocketHandler
 
 
@@ -22,11 +21,6 @@ class Jarvis:
 
 
 ### START HERE ###
-
-# Loading the enviornment variables from .env 
-# Used for getting encrypted API and APP keys
-env_path = Path(".") / ".env"
-load_dotenv(dotenv_path=env_path)
 
 # Loading Jarvis
 self = Jarvis()
