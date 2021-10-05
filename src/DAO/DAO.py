@@ -11,7 +11,6 @@ class DAO():
 
     Inherits SlackAPIHandler
     """
-    
     def __init__(self, __enableTrace__=False):
         """
         Initializing Jarvis DAO object

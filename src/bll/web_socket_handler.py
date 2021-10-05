@@ -19,7 +19,6 @@ class WebSocketHandler():
 
     Inherits Jarvis
     """
-
     def __init__(self, __enableTrace__=False, __slack_app_key__=None, __slack_api_key__=None):
         """
         Initializing WebSocketHandler object

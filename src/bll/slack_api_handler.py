@@ -16,7 +16,6 @@ class SlackAPIHandler():
 
     Inherits WebSocketHander
     """
-
     def __init__(self, __enableTrace__=False, __slack_app_key__=None, __slack_api_key__=None):
         """
         Initializing SlackAPIHandler object.
