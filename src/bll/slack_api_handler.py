@@ -39,9 +39,10 @@ class SlackAPIHandler():
         self.in_training_mode = False
         self.print_the_training_data = True
 
+        # Getting any app tokens that may have been passed to the Jarvis constructor
         self.__slack_api_key__ = __slack_api_key__
         self.__slack_app_key__ = __slack_app_key__
-        self.__enableTrace__   = __enableTrace__
+        self.__enableTrace__   = __enableTrace__ # can be used as debug flag from here on out
 
         # Creating Slack_API_Handler object attrbute to abstract Sqlite3 database stuff
         self.DAO = DAO(__enableTrace__=self.__enableTrace__) # No need to pass tokens from here on out

@@ -11,8 +11,7 @@ class JarvisDB():
         """
         Initializing JarvisDB object.
         """
-        self.__enableTrace__ = __enableTrace__
-
+        self.__enableTrace__   = __enableTrace__ # can be used as debug flag from here on out
 
     @error_handler(debug_mode=True,function_name="JarvisDB.restart_database")
     def restart_database(self):

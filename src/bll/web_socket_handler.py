@@ -33,8 +33,11 @@ class WebSocketHandler():
         self.data['From']    = [] # keeps track of the senders of the messages
         self.num_received_messages = 0 # keeps
 
+        # Getting any app tokens that may have been passed to the Jarvis constructor
         self.__slack_api_key__ = __slack_api_key__
         self.__slack_app_key__ = __slack_app_key__
+
+        # Setting the websocket chatter (True=lots, False=little)
         self.__enableTrace__   = __enableTrace__
         websocket.enableTrace(self.__enableTrace__) 
 
@@ -124,7 +127,7 @@ class WebSocketHandler():
         """
         Returns websocket connection to Slack API
         """
-        self.ws = websocket.WebSocketApp(self.SlackAPIHandler.get_connection_url(), 
+        self.ws = websocket.WebSocketApp(url=self.SlackAPIHandler.get_connection_url(), 
                                       on_message = self.on_message,
                                       on_error = self.on_error,
                                       #on_close = self.on_close,

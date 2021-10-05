@@ -16,7 +16,7 @@ class DAO():
         """
         Initializing Jarvis DAO object
         """
-        self.__enableTrace__ = __enableTrace__
+        self.__enableTrace__   = __enableTrace__ # can be used as debug flag from here on out
         self.JarvisDB = JarvisDB(__enableTrace__=self.__enableTrace__)
         self.JarvisDB_conn, self.JarvisDB_cur = self.JarvisDB.return_database() # get connection objects to db
         self.create_training_data_table() # create the training data table if it doesn't exist
