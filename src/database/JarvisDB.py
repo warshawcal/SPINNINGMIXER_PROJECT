@@ -1,15 +1,17 @@
 import sqlite3
 from bll.ErrorHandler import error_handler
 
-class JarvisDB:
+class JarvisDB():
     """
     Basically just returns connection and cursor objects to the database..
+
+    Inherits DAO
     """
-    def __init__(self, debug_trace=True):
+    def __init__(self, __enableTrace__=False):
         """
         Initializing JarvisDB object.
         """
-        self.debug_trace = debug_trace
+        self.__enableTrace__ = __enableTrace__
 
 
     @error_handler(debug_mode=True,function_name="JarvisDB.restart_database")

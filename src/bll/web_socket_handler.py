@@ -12,28 +12,36 @@ except ImportError:
     import _thread as thread
 
 
-class WebSocketHandler:
+class WebSocketHandler():
     """
     This file handles all logic to the web socket connection.
     Mostly handles the listening of Jarvis to our slack channel
+
+    Inherits Jarvis
     """
 
-    def __init__(self, enableTrace=False):
+    def __init__(self, __enableTrace__=False, __slack_app_key__=None, __slack_api_key__=None):
         """
         Initializing WebSocketHandler object
         """
-        websocket.enableTrace(enableTrace) 
-
-        # Creating WebSocketHandler object attrbute to abstract Slack API stuff
-        self.SlackAPIHandler = SlackAPIHandler()
 
         # This dictionary keeps track of the messages Jarvis receives
         # Useful for not sending any duplicate api calls that may be sent to
         # the web socket
         self.data = dict(())
         self.data['Message'] = [] # keeps track of the messages
-        self.data['From'] = [] # keeps track of the senders of the messages
-        self.num_received_messages = 0 # keeps 
+        self.data['From']    = [] # keeps track of the senders of the messages
+        self.num_received_messages = 0 # keeps
+
+        self.__slack_api_key__ = __slack_api_key__
+        self.__slack_app_key__ = __slack_app_key__
+        self.__enableTrace__   = __enableTrace__
+        websocket.enableTrace(self.__enableTrace__) 
+
+        # Creating WebSocketHandler object attrbute to abstract Slack API stuff
+        self.SlackAPIHandler = SlackAPIHandler(__enableTrace__  = self.__enableTrace__,  \
+                                               __slack_app_key__= __slack_app_key__,     \
+                                               __slack_api_key__= __slack_api_key__      )
 
     def on_message(self, ws, message):
         """

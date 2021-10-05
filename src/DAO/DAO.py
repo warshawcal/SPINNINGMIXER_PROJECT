@@ -4,18 +4,20 @@ from database.JarvisDB import JarvisDB
 from bll.ErrorHandler import error_handler
 import pandas as pd
 
-class DAO:
+class DAO():
     """
     DAO: Data Access Object
     This file handles all queries to the sqlite3 database
+
+    Inherits SlackAPIHandler
     """
     
-    def __init__(self, debug_trace=True):
+    def __init__(self, __enableTrace__=False):
         """
         Initializing Jarvis DAO object
         """
-        self.debug_trace = debug_trace
-        self.JarvisDB = JarvisDB(debug_trace=debug_trace)
+        self.__enableTrace__ = __enableTrace__
+        self.JarvisDB = JarvisDB(__enableTrace__=self.__enableTrace__)
         self.JarvisDB_conn, self.JarvisDB_cur = self.JarvisDB.return_database() # get connection objects to db
         self.create_training_data_table() # create the training data table if it doesn't exist
 
