@@ -184,7 +184,7 @@ class SlackAPIHandler():
             base64_decrypted_app_token = b64_output_bytes.decode('ascii')
             self.__slack_app_key__ =  str(base64_decrypted_app_token)
 
-            return self.__slack_app_key__
+        return self.__slack_app_key__
 
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.return_slack_api_token")
     def return_slack_api_token(self):
@@ -205,7 +205,7 @@ class SlackAPIHandler():
             base64_decrypted_api_token = b64_output_bytes.decode('ascii')
             self.__slack_api_key__ = str(base64_decrypted_api_token)
 
-            return self.__slack_api_key__
+        return self.__slack_api_key__
 
     @error_handler(debug_mode=True,function_name="SlackAPIHandler.get_connection_url")
     def get_connection_url(self):
