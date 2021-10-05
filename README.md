@@ -42,7 +42,7 @@ DEVELOPER DOCUMENTATION:
                                 - DAO (Data Access Object)
                                     (Database Layer)
                                         - JarvisDB (python)
-                                        - jarvisdb.db (sqlite3) 
+                                          - jarvisdb.db (sqlite3) 
         * Description
             (Top)
             Jarvis --> jarvis.py:
